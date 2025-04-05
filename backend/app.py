@@ -5,9 +5,7 @@ import mlflow
 import sys
 import os
 import mlflow.pyfunc
-
-def load_model():
-    import mlflow
+import mlflow
 import mlflow.pyfunc
 
 def load_model():
