@@ -18,8 +18,8 @@ COPY dvc.lock ./
 
 # Set environment variables for DagsHub MLflow auth (during runtime in Render or Docker)
 ENV MLFLOW_TRACKING_URI=https://dagshub.com/hassan-serhan/heartdiseaserisk11.mlflow
-ENV MLFLOW_TRACKING_USERNAME=${MLFLOW_TRACKING_USERNAME}
-ENV MLFLOW_TRACKING_PASSWORD=${MLFLOW_TRACKING_PASSWORD}
+ENV MLFLOW_TRACKING_USERNAME=hassan-serhan
+ENV MLFLOW_TRACKING_PASSWORD=f6fb42675b16121e338a1a6fa408c4f29d9185b1
 
 # Expose the port used by FastAPI/Flask
 EXPOSE 5000
