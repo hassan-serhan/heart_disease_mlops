@@ -1,0 +1,14 @@
+stages:
+  preprocess:
+    cmd: python preprocess.py  # (Assume you have a script to process raw data)
+    deps:
+      - data/raw/heart.csv
+    outs:
+      - data/processed/heart_processed.csv
+  train:
+    cmd: python train_model.py
+    deps:
+      - data/processed/heart_processed.csv
+      - train_model.py
+    outs:
+      - models/model.pkl  # This can be used by MLFlow later

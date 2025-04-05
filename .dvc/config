@@ -1,0 +1,10 @@
+[core]
+    remote = dagshub-remote
+['remote "dagshub_remote"']
+    url = s3://heartdiseaserisk11/data/raw
+['remote "dagshub-remote"']
+    url = s3://heartdiseaserisk11
+    endpointurl = https://dagshub.com/api/v1/repo-buckets/s3/hassan-serhan
+    region = us-east-1
+    access_key_id = f6fb42675b16121e338a1a6fa408c4f29d9185b1
+    secret_access_key = f6fb42675b16121e338a1a6fa408c4f29d9185b1

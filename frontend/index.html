@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heart Disease Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { max-width: 600px; margin: auto; }
+    input[type="number"], select { width: 100%; padding: 8px; margin: 5px 0 15px; }
+    label { font-weight: bold; }
+    button { padding: 10px 20px; }
+    .result { margin-top: 20px; font-size: 1.2em; color: green; }
+    .error { margin-top: 20px; font-size: 1.2em; color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Heart Disease Prediction</h1>
+    <form id="prediction-form">
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required>
+
+      <label for="sex">Sex (0 = female, 1 = male):</label>
+      <select id="sex" name="sex" required>
+        <option value="">Select</option>
+        <option value="0">Female</option>
+        <option value="1">Male</option>
+      </select>
+
+      <label for="cp">Chest Pain Type (cp):</label>
+      <input type="number" id="cp" name="cp" required>
+
+      <label for="trestbps">Resting Blood Pressure (trestbps):</label>
+      <input type="number" id="trestbps" name="trestbps" required>
+
+      <label for="chol">Serum Cholesterol (chol):</label>
+      <input type="number" id="chol" name="chol" required>
+
+      <label for="fbs">Fasting Blood Sugar (fbs) (1 = true; 0 = false):</label>
+      <select id="fbs" name="fbs" required>
+        <option value="">Select</option>
+        <option value="0">False</option>
+        <option value="1">True</option>
+      </select>
+
+      <label for="restecg">Resting ECG results (restecg):</label>
+      <input type="number" id="restecg" name="restecg" required>
+
+      <label for="thalach">Maximum Heart Rate achieved (thalach):</label>
+      <input type="number" id="thalach" name="thalach" required>
+
+      <label for="exang">Exercise Induced Angina (exang) (1 = yes; 0 = no):</label>
+      <select id="exang" name="exang" required>
+        <option value="">Select</option>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="oldpeak">ST depression induced by exercise (oldpeak):</label>
+      <input type="number" step="any" id="oldpeak" name="oldpeak" required>
+
+      <label for="slope">Slope of the peak exercise ST segment (slope):</label>
+      <input type="number" id="slope" name="slope" required>
+
+      <label for="ca">Number of major vessels (ca):</label>
+      <input type="number" id="ca" name="ca" required>
+
+      <label for="thal">Thalassemia (thal):</label>
+      <input type="number" id="thal" name="thal" required>
+
+      <button type="submit">Predict</button>
+    </form>
+    <div id="response" class="result" style="display:none;"></div>
+    <div id="error" class="error" style="display:none;"></div>
+  </div>
+
+  <script>
+    document.getElementById("prediction-form").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      document.getElementById("response").style.display = "none";
+      document.getElementById("error").style.display = "none";
+
+      // Build the payload from the form data
+      const payload = {
+        age: Number(document.getElementById("age").value),
+        sex: Number(document.getElementById("sex").value),
+        cp: Number(document.getElementById("cp").value),
+        trestbps: Number(document.getElementById("trestbps").value),
+        chol: Number(document.getElementById("chol").value),
+        fbs: Number(document.getElementById("fbs").value),
+        restecg: Number(document.getElementById("restecg").value),
+        thalach: Number(document.getElementById("thalach").value),
+        exang: Number(document.getElementById("exang").value),
+        oldpeak: Number(document.getElementById("oldpeak").value),
+        slope: Number(document.getElementById("slope").value),
+        ca: Number(document.getElementById("ca").value),
+        thal: Number(document.getElementById("thal").value)
+      };
+
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+          document.getElementById("response").innerText = "Prediction: " + result.prediction;
+          document.getElementById("response").style.display = "block";
+        } else {
+          document.getElementById("error").innerText = "Error: " + result.error;
+          document.getElementById("error").style.display = "block";
+        }
+      } catch (error) {
+        document.getElementById("error").innerText = "Request failed: " + error;
+        document.getElementById("error").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
