@@ -6,7 +6,7 @@ import sys
 import os
 import mlflow.pyfunc
 from mlflow.tracking import MlflowClient
-
+mlflow.set_tracking_uri("https://dagshub.com/hassan-serhan/heartdiseaserisk11.mlflow")
 def load_model():
     """
     Load the latest registered version of the MLFlow model.
