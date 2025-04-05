@@ -1,19 +1,29 @@
 from flask import Flask, request, jsonify, render_template
+from urllib.parse import quote as url_quote
+
 import mlflow
 import sys
 import os
 import mlflow.pyfunc
 
 def load_model():
+    import mlflow
+import mlflow.pyfunc
+
+def load_model():
     """
-    Load the registered MLFlow model.
-    Replace 'HeartDiseaseModel' and version '1' with your model details.
+    Load the latest registered version of the MLFlow model.
     """
     model_name = "heart-disease-model"
-    model_version = "1"
-    model_uri = f"models:/{model_name}/{model_version}"
+    
+    # Get the latest version of the model
+    latest_version = mlflow.registered_model.get_latest_versions(model_name, stages=["None"])[0].version
+    model_uri = f"models:/{model_name}/{latest_version}"
+    
+    # Load the model
     model = mlflow.pyfunc.load_model(model_uri)
     return model
+
 
 def predict_heart_disease(model, features):
     """
