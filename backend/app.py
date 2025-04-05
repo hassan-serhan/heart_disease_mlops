@@ -5,10 +5,7 @@ import mlflow
 import sys
 import os
 import mlflow.pyfunc
-
-def load_model():
-    import mlflow
-import mlflow.pyfunc
+from mlflow.tracking import MlflowClient
 
 def load_model():
     """
@@ -16,13 +13,24 @@ def load_model():
     """
     model_name = "heart-disease-model"
     
-    # Get the latest version of the model
-    latest_version = mlflow.registered_model.get_latest_versions(model_name, stages=["None"])[0].version
+    # Initialize MLflow client
+    client = MlflowClient()
+    
+    # Get the latest version (can filter by stages like ["Production"], or use ["None"] to get all)
+    latest_versions = client.get_latest_versions(name=model_name, stages=["None"])
+    
+    if not latest_versions:
+        raise Exception(f"No versions found for model: {model_name}")
+    
+    # Use the most recent version
+    latest_version = latest_versions[0].version
     model_uri = f"models:/{model_name}/{latest_version}"
     
-    # Load the model
+    print(f"Loading model from URI: {model_uri}")
     model = mlflow.pyfunc.load_model(model_uri)
+    
     return model
+
 
 
 def predict_heart_disease(model, features):
