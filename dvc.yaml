@@ -11,4 +11,4 @@ stages:
       - data/processed/heart_processed.csv
       - notebooks/train_model.py
     outs:
-      - models/heart_disease_model.pkl  # This can be used by MLFlow later
+      - heart_disease_model.pkl  # This can be used by MLFlow later

@@ -1,0 +1,30 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python notebooks/preprocess.py
+    deps:
+    - path: data/raw/heart.csv
+      hash: md5
+      md5: 38d16c9d000ec5290124c5a2505bebc2
+      size: 38040
+    outs:
+    - path: data/processed/heart_processed.csv
+      hash: md5
+      md5: e63491b78703d722d869ce2dab83c9f6
+      size: 38920
+  train:
+    cmd: python notebooks/train_model.py
+    deps:
+    - path: data/processed/heart_processed.csv
+      hash: md5
+      md5: e63491b78703d722d869ce2dab83c9f6
+      size: 38920
+    - path: notebooks/train_model.py
+      hash: md5
+      md5: cffe29a904f36ab7897b4f8f1f9a3ebb
+      size: 2556
+    outs:
+    - path: heart_disease_model.pkl
+      hash: md5
+      md5: 3c7e4268d99e5c1c5b4b87322eaee8e5
+      size: 1429088
