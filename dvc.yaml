@@ -1,12 +1,12 @@
 stages:
   preprocess:
-    cmd: python preprocess.py  # (Assume you have a script to process raw data)
+    cmd: python notebooks/preprocess.py  # (Assume you have a script to process raw data)
     deps:
       - data/raw/heart.csv
     outs:
       - data/processed/heart_processed.csv
   train:
-    cmd: python train_model.py
+    cmd: python notebooks/train_model.py
     deps:
       - data/processed/heart_processed.csv
       - notebooks/train_model.py
