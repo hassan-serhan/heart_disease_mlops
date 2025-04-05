@@ -9,6 +9,6 @@ stages:
     cmd: python train_model.py
     deps:
       - data/processed/heart_processed.csv
-      - train_model.py
+      - notebooks/train_model.py
     outs:
       - models/heart_disease_model.pkl  # This can be used by MLFlow later
