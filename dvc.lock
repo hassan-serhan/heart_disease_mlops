@@ -21,10 +21,10 @@ stages:
       size: 38920
     - path: notebooks/train_model.py
       hash: md5
-      md5: cffe29a904f36ab7897b4f8f1f9a3ebb
-      size: 2556
+      md5: 725fad0e1258f9504601ebf4f296c127
+      size: 3064
     outs:
-    - path: heart_disease_model.pkl
+    - path: models/heart-disease-model.pkl
       hash: md5
       md5: 3c7e4268d99e5c1c5b4b87322eaee8e5
       size: 1429088

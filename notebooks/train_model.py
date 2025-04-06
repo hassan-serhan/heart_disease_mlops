@@ -62,14 +62,32 @@ with mlflow.start_run():
     predictions = ensemble.predict(X_test_scaled)
     acc = accuracy_score(y_test, predictions)
     joblib.dump(scaler, "scaler.pkl")
-    joblib.dump(ensemble, "heart_disease_model.pkl")
-    print("Training complete. Accuracy:", acc)
+   
+# After training your model:
+    if not os.path.exists("models"):
+        os.makedirs("models")
+
+model_path = "models/heart-disease-model.pkl"
+
+# Save model
+print(f"Saving model to {model_path}...")
+joblib.dump(ensemble, model_path)
+
+# Confirm file exists
+if os.path.exists(model_path):
+    print(f" Model successfully saved at {model_path}")
+else:
+    print(" Model save failed!")
+    joblib.dump(ensemble, "models/heart-disease-model.pkl")
+    mlflow.log_artifact("models/heart-disease-model.pkl", artifact_path="models")
+
+    # print("Training complete. Accuracy:", acc)
     
-    # Log metric and model to MLflow
-    mlflow.log_metric("accuracy", acc)
-    model_info = mlflow.sklearn.log_model(ensemble, artifact_path="heart-disease-model")
+    # # Log metric and model to MLflow
+    # mlflow.log_metric("accuracy", acc)
+    # model_info = mlflow.sklearn.log_model(ensemble, artifact_path="heart-disease-model")
     
-    # Register the model (ensure your MLflow Model Registry is properly set up on DagsHub)
-    mlflow.register_model(model_info.model_uri, "heart-disease-model")
+    # # Register the model (ensure your MLflow Model Registry is properly set up on DagsHub)
+    # mlflow.register_model(model_info.model_uri, "heart-disease-model")
     
-    print(f"Model registered in MLflow with accuracy: {acc}")
+    # print(f"Model registered in MLflow with accuracy: {acc}")

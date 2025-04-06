@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from urllib.parse import quote as url_quote
 
+import joblib
 import mlflow
 import sys
 import os
@@ -32,28 +33,15 @@ mlflow.set_tracking_uri("https://dagshub.com/hassan-serhan/heartdiseaserisk11.ml
 #     return model
 
 def load_model():
-    """
-    Load the latest registered version of the MLFlow model.
-    """
-    model_name = "heart-disease-model"
-    
-    # Initialize MLflow client
-    client = MlflowClient()
-    
-    # Get the latest version (can filter by stages like ["Production"], or use ["None"] to get all)
-    latest_versions = client.get_latest_versions(name=model_name, stages=["None"])
-    
-    if not latest_versions:
-        raise Exception(f"No versions found for model: {model_name}")
-    
-    # Use the most recent version
-    latest_version = latest_versions[0].version
-    model_uri ="models:/heart-disease-model/5"
-    
-    print(f"Loading model from URI: {model_uri}")
-    model = mlflow.pyfunc.load_model(model_uri)
-    
+    # Adjust the path as necessary (the model should be copied into the Docker image)
+    model = joblib.load("/models/heart-disease-model.pkl")
     return model
+
+try:
+    model = load_model()
+except Exception as e:
+    print("Error loading model:", e)
+    model = None
 
 
 
