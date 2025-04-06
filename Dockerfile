@@ -1,24 +1,22 @@
-# Base image
-
 FROM python:3.10-slim
 
-# Set working directory inside container
-WORKDIR /app
+# Set working directory inside the container
+WORKDIR /heart-disease-prediction
 
 # Install dependencies
 COPY backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the backend and frontend
+# Copy the backend and frontend directories
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
-# Copy the model from your local models directory to /models in the container
-COPY models/ /models/
+# Copy the models folder (make sure models/ is at the root of your local project)
+COPY models/ /heart-disease-prediction/models/
 
 # Optional: copy ML/DVC tracking configs (not used at runtime)
 COPY dvc.yaml ./ 
-COPY dvc.lock ./
+COPY dvc.lock ./ 
 
 # Set environment variables for DagsHub MLflow auth (during runtime in Render or Docker)
 ENV MLFLOW_TRACKING_URI=https://dagshub.com/hassan-serhan/heartdiseaserisk11.mlflow
