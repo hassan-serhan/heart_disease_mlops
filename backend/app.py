@@ -33,7 +33,7 @@ mlflow.set_tracking_uri("https://dagshub.com/hassan-serhan/heartdiseaserisk11.ml
 #     return model
 
 def load_model():
-    model_path = "models/heart-disease-model.pkl"  # Remove the leading slash
+    model_path = "/heart-disease-prediction/models/heart-disease-model.pkl"  # Remove the leading slash
     try:
         model = joblib.load(model_path)
         print(" Model loaded successfully!")
