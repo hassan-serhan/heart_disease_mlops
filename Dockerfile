@@ -1,4 +1,5 @@
 # Base image
+
 FROM python:3.10-slim
 
 # Set working directory inside container
@@ -12,8 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
+# Copy the model from your local models directory to /models in the container
+COPY models/ /models/
+
 # Optional: copy ML/DVC tracking configs (not used at runtime)
-COPY dvc.yaml ./
+COPY dvc.yaml ./ 
 COPY dvc.lock ./
 
 # Set environment variables for DagsHub MLflow auth (during runtime in Render or Docker)
