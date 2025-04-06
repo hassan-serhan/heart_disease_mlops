@@ -33,15 +33,14 @@ mlflow.set_tracking_uri("https://dagshub.com/hassan-serhan/heartdiseaserisk11.ml
 #     return model
 
 def load_model():
-    # Adjust the path as necessary (the model should be copied into the Docker image)
-    model = joblib.load("/models/heart-disease-model.pkl")
-    return model
-
-try:
-    model = load_model()
-except Exception as e:
-    print("Error loading model:", e)
-    model = None
+    model_path = "models/heart-disease-model.pkl"  # Remove the leading slash
+    try:
+        model = joblib.load(model_path)
+        print(" Model loaded successfully!")
+        return model
+    except Exception as e:
+        print(f" Error loading model: {e}")
+        return None
 
 
 
